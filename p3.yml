@@ -1,0 +1,40 @@
+---
+ - hosts: a
+   remote_user: devops
+   become: yes
+   vars: 
+    x: httpd
+    y: firewalld
+    z: php
+
+   tasks:
+    - name: installing packages
+      yum:
+       name:  
+        - "{{ x }}"
+        - "{{ y }}"    
+        - "{{ z }}"
+       state: latest   
+      
+    - name: start and enable services of {{ x }}
+      service:
+       name: "{{ x }}"
+       state: started
+       enabled: yes
+
+    - name: start and enable services of {{ y }}
+      service:
+       name: "{{ y }}"
+       state: started
+       enabled: yes
+    
+    - name: copying
+      copy: 
+       src: /home/archit55/login.txt
+       dest: /var/www/html/abc.php  
+    
+    - name: firewall rules to access php page
+      firewalld:
+       service: http 
+       permanent: yes
+       state: enabled      

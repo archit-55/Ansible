@@ -1,0 +1,39 @@
+---
+ - hosts: a 
+   become: true
+   remote_user: devops
+   tasks:
+    - name: install httpd
+      yum: 
+       name: httpd
+       state: latest
+             
+    - name: reload and enable httpd service
+      service:
+       name: httpd
+       state: reloaded
+       enabled: yes
+
+    - name: install firewall
+      yum: 
+       name: firewalld 
+       state: latest
+       
+    - name: reload and enable firewalld service
+      service:
+       name: firewalld
+       state: reloaded  
+       enabled: yes
+         
+    - name:
+      firewalld:
+       service: https
+       permanent: yes
+       state: enabled
+    
+    - name: copy
+      copy: 
+       src: /var/www/html/hello.html
+       dest: /home/devops/index.html
+       owner: apache
+
