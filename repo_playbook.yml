@@ -1,0 +1,11 @@
+---
+ - hosts: all
+   become: yes
+   tasks:
+    - name: add multiple repositories to the same file 
+      yum_repository: 
+       name: epel
+       description: epel yum repo
+       file: repo_playbook
+       baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+       gpgcheck: no      
