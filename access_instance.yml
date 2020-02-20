@@ -1,0 +1,20 @@
+---
+ - name: Start sandbox instances
+   hosts: localhost
+   vars:
+    instance_ids: i-0dd1243927e3dfd50
+    region: ap-south-1
+   tasks:
+    - name: Start the sandbox instances
+      ec2:
+       instance_ids: '{{ instance_ids }}'
+       region: '{{ region }}'
+       state: running
+       wait: True 
+    
+    - ec2_vol:
+       instance: "{{ instance_ids }}"
+       name: mg
+       device_name: /dev/xvdf
+       region: '{{ region }}'
+       volume_size: 5
