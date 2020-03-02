@@ -1,0 +1,39 @@
+---
+ - hosts: a
+   become: true
+   tasks: 
+    - name: create file 
+      file:
+       path: /root/aaa.txt
+       state: touch
+       mode: 0775    
+  
+    - name: create directory
+      file:
+       path: /root/aaa   
+       state: directory
+       mode: 0775   
+    
+    - name: delete user with home directory   
+      user: 
+       name: aaaa
+       state: absent
+       remove: yes
+       
+    - name: copy content
+      copy:
+       src: /root/ansible/vars.yml   
+       dest: /root/aaa.txt    
+     
+    - name: Replace after the expression till the end of the file (requires Ansible >= 2.4)
+      replace:
+       path: /root/aaa.txt
+       regexp: 'ms'
+       replace: 'web'
+
+    - name: archive/zip
+      archive:
+       path: /root/aaa
+       dest: /root/aaa.zip
+       format: zip    
+        
